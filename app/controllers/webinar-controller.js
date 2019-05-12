@@ -73,7 +73,8 @@ exports.update = (req, res) => {
         title: req.body.title,
         description: req.body.description,
         image: req.body.image,
-        url: req.body.url
+        url: req.body.url,
+        state: req.body.state
     }, {new: true})
         .then(webinar => {
             if (!webinar) {
