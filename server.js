@@ -1,43 +1,66 @@
 const express = require('express');
+const expressLayouts = require('express-ejs-layouts');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const flash = require('connect-flash');
+const session = require('express-session');
 const bodyParser = require('body-parser');
+const path = require('path');
+const cors = require('cors');
 
-// Create express app
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+/** Configs **/
+require('./config/passport')(passport);               // Passport
+const databaseConfig = require('./config/database');  // MongoDB
 
-//Enable CORS for all HTTP methods
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-
-// Configuring the database
-const config = require('./config/config.js');
-const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-
-// Connecting to database
-mongoose.connect(config.databaseURL, {
+/** Connecting to Database **/
+mongoose.connect(databaseConfig.URL, {
+    useCreateIndex: true,
     useNewUrlParser: true
 }).then(() => {
-    console.log("Successfully connected to the database");
+    console.log("Successfully connected to the database.");
 }).catch(err => {
     console.log('Could not connect to the database. Exiting now...', err);
     process.exit();
 });
 
-// Routes
-require('./app/routes/webinar-routes.js')(app);
-// Default route
-app.get('/', (req, res) => {
-    res.json({"message": "Welcome to application."});
+/** Application settings **/
+app.use(cors());
+
+// Укажем пусть к папке "views"
+app.set('views', path.join(__dirname, '/app/views'));
+
+// EJS
+app.use(expressLayouts);
+app.set('view engine', 'ejs');
+
+// Body parser
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+// Express session
+app.use(session({secret: 'secret', resave: true, saveUninitialized: true}));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Connect flash
+app.use(flash());
+
+// Global variables
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    next();
 });
 
-// Listen for requests
-app.listen(config.port, () => {
-    console.log("App is running on port " + config.port);
-});
+// Routes
+app.use('/', require('./routes/index.js'));
+app.use('/users', require('./routes/users.js'));
+app.use('/webinars', require('./routes/webinars.js'));
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, console.log(`Server started on port ${PORT}`));
