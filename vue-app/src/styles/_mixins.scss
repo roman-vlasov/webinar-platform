@@ -1,0 +1,74 @@
+@mixin noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                        supported by Chrome and Opera */
+  -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+}
+
+.noscroll {
+  position: fixed;
+  overflow-y: hidden;
+  width: 100%;
+}
+
+@mixin placeholder-animation {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    max-width: 1000px;
+    height: 100%;
+    background: linear-gradient(to right, transparent 0%, darken(#eee, 5%) 15%, transparent 30%);
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: contentPlaceholdersAnimation;
+    animation-timing-function: linear;
+  }
+}
+
+@mixin show-for-screen-width($min-width, $max-width, $display-value) {
+  @media screen and (min-width: 0px) and (max-width: $min-width - 1) {
+      display: none !important;
+  }
+  @media screen and (min-width: $min-width) and (max-width: $max-width) {
+    display: $display-value  !important;
+  }
+  @media screen and (min-width: $max-width + 1) {
+    display: none  !important;
+  }
+}
+
+@mixin float-button {
+  cursor: pointer;
+  fill: #000;
+  transition: all .3s ease;
+  background: #fff;
+  padding: $common-styles-float-button-padding;
+  border-radius: 50%;
+  width: $common-styles-float-button-size;
+  height: $common-styles-float-button-size;
+  opacity: 0.8;
+  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.12);
+  z-index: 2;
+
+  &:hover {
+    opacity: 1;
+    box-shadow: 0 2px 9px 0 rgba(0, 0, 0, 0.17);
+  }
+}
+
+@mixin float-button-mobile {
+  padding: $common-styles-float-button-mobile-padding;
+  width: $common-styles-float-button-mobile-size;
+  height: $common-styles-float-button-mobile-size;
+}

@@ -1,0 +1,106 @@
+/* Common */
+$common-styles-float-button-size: 20px !default;
+$common-styles-float-button-mobile-size: 16px !default;
+$common-styles-float-button-padding: 14px !default;
+$common-styles-float-button-mobile-padding: 12px !default;
+
+/* NavigationBar */
+$app-nav-bar-height: 100px;
+$app-mobile-nav-bar-height: 60px;
+/* Ширина экрана, при котором переключается вид навигации (navbar и navdrawer) на мобильную */
+$app-navigation-desktop-breakpoint: 950px;
+$app-infinity-width: 100000px;
+$app-nav-bar-title-font-family: 'Raleway', 'Lato', Roboto, Arial, sans-serif;
+$app-nav-bar-font-family: 'Lato', Roboto, Arial, sans-serif;
+$app-nav-bar-title-font-weight: 900;
+$app-nav-bar-font-weight: 600;
+$app-nav-bar-shadows: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
+$app-nav-bar-border-bottom: rgba(142, 81, 199, 0.05) 1px solid;
+$app-nav-bar-padding: 30px;
+$app-nav-bar-mobile-padding: 20px;
+
+/*Aside */
+$app-aside-logo-height: $app-nav-bar-height;
+$app-aside-width: $app-nav-bar-height;
+$app-aside-font-family: 'Lato', Roboto, Arial, sans-serif;
+$app-aside-font-weight: 600;
+$app-aside-background: #F0EDF6;
+$app-aside-items-color: #AEB8C6;
+$app-aside-items-color-active: #50667B;
+$app-aside-items-background-active: #F9F8FD;
+
+/* Navigation Drawer */
+$navigation-drawer-background: #fff;
+$navigation-drawer-padding: 40px;
+$navigation-drawer-font-family: Lato, Roboto, Arial, sans-serif;
+$navigation-drawer-color: #333;
+$navigation-drawer-color-hover: #333;
+$navigation-drawer-color-active: #fff;
+$navigation-drawer-background-hover: #F0EDF6;
+$navigation-drawer-background-active: #6F64E9;
+$navigation-drawer-menu-divider-color: #D5DBDF;
+
+/* SelectDropdown */
+$select-dropdown-font-family: 'Lato', Roboto, Arial, sans-serif;
+$select-dropdown-font-weight: 400;
+$select-dropdown-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
+
+/* UserProfileCard */
+$user-profile-card-font-family: 'Lato', Roboto, Arial, sans-serif;
+$user-profile-card-name-font-weight: 600;
+$user-profile-card-menu-font-weight: 500;
+
+/* CoursePlan */
+$course-plan-content-padding: 30px 30px;
+$course-plan-content-desktop-breakpoint: 950px;
+$course-plan-content-width-stretch-breakpoint: 760px;
+$course-plan-content-mobile-padding: 20px 20px;
+$course-plan-modal-medium-breakpoint: 1200px;
+
+/* CourseModule */
+$course-module-medium-breakpoint: 1000px;
+$course-module-small-breakpoint: 790px;
+$course-module-header-font-family: 'Raleway', 'Lato', Roboto, Arial, sans-serif;
+$course-module-course-module-block-background: #2BB7FF;
+$course-module-course-module-block-color: #fff;
+$course-module-header-font-size: 48px;
+
+/* CourseModuleBlock */
+$course-module-block-font-family: 'Lato', Roboto, Arial, sans-serif;
+$course-module-block-box-shadow: 5px 5px #0E8ED0, 5px 10px 25px rgba(15, 130, 189, 0.5);
+$course-module-block-hover-box-shadow: 8px 8px #0E8ED0, 5px 10px 25px rgba(15, 130, 189, 0.75);
+$course-module-block-radius: 15px;
+$course-module-block-transition: .3s ease;
+
+/* CourseTheory */
+$course-theory-max-width: 800px;
+$course-theory-top-margin: 0px;
+$course-theory-bottom-margin: 25px;
+$course-theory-padding: 0 40px;
+$course-theory-mobile-padding: 0 15px;
+$course-theory-mobile-breakpoint: 800px;
+
+/* CourseModuleBlock page */
+$course-module-block-small-breakpoint: 790px;
+
+//$practical-content-width: 1000px;
+
+/* breakpoints */
+$xs: 479;
+$sm: 767px;
+$md: 1100px;
+$lg: 1920px;
+
+$task-media-breakpoint: 850px;
+
+/* colors */
+$success_secondary: #BFF199;
+$success_primary: #65AB00;
+
+$fail_secondary: #FFD3D1;
+$fail_primary: #E70800;
+
+//$xs: 0;
+//$sm: 479px;
+//$md: 767px;
+//$lg: 1023px;
