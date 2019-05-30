@@ -105,6 +105,7 @@ exports.delete = (req, res) => {
                     message: "Webinar not found with id " + req.params.webinarId
                 });
             }
+            webinar.deleteAllPolls();
             res.send({message: "Webinar deleted successfully!"});
         }).catch(err => {
         if (err.kind === 'ObjectId' || err.name === 'NotFound') {

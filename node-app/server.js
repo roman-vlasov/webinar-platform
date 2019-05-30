@@ -34,7 +34,7 @@ app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
-    if ('OPTIONS' == req.method) {
+    if ('OPTIONS' === req.method) {
         res.send(200);
     } else {
         next();
@@ -85,6 +85,8 @@ app.use('/api/users/current', router);
 module.exports = router;
 
 app.use('/api/webinars', require('./routes/webinars.js'));
+app.use('/api/webinars/:webinarId/polls', require('./routes/polls.js'));
+app.use('/api/webinars/:webinarId/polls/:pollId/answers', require('./routes/answers.js'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
