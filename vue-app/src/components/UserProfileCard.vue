@@ -47,8 +47,10 @@
 
   .header__avatar {
     overflow: hidden;
-    width: 56px;
-    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    max-width: 56px;
+    max-height: 56px;
     border-radius: 32px;
 
     img {
@@ -61,6 +63,7 @@
     font-size: 22px;
     font-weight: $user-profile-card-name-font-weight;
     color: #333;
+    word-wrap: normal;
   }
 
   .user-profile-card__content {

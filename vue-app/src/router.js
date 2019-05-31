@@ -15,6 +15,12 @@ export default new Router({
       component: Main
     },
     {
+        path: '/webinar/new',
+        name: 'WebinarNewPage',
+        component: WebinarEditPage,
+        props: { editMode: false }
+    },
+    {
       path: '/webinar/:webinarId',
       name: 'WebinarPage',
       component: WebinarPage
@@ -25,12 +31,7 @@ export default new Router({
       component: WebinarEditPage,
       props: { editMode: true }
     },
-    {
-      path: '/webinar/new',
-      name: 'WebinarNewPage',
-      component: WebinarEditPage,
-      props: { editMode: false }
-    },
+
     {
       path: '/about',
       name: 'about',

@@ -16,6 +16,7 @@
                    :menu-items="navbarMenuItems"
                    :nav-drawer-active="navigationDrawerShow"
                    :profile-path="{ name: 'Profile' }"
+                   main-page-route-name="Main"
                    v-on:hamburgerClick="switchNavigationDrawerShow"/>
     </div>
     <router-view/>

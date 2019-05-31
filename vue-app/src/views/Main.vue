@@ -2,12 +2,16 @@
   <div class="main">
     <h2 class="content-header-title">Вебинары в прямом эфире</h2>
 
-    <webinar-card v-for="(webinar, index) in webinars"
-                  class="webinar-card"
-                  :key="index"
-                  :name="webinar.title"
-                  :image="webinar.image"
-                  @click.native="openWebinarPage(webinar)"/>
+    <div class="webinar-cards-list">
+      <webinar-card v-for="(webinar, index) in webinars"
+                    class="webinar-card"
+                    :key="index"
+                    :name="webinar.title"
+                    :image="webinar.image"
+                    :author="webinar.authorName"
+                    @click.native="openWebinarPage(webinar)"/>
+    </div>
+
   </div>
 </template>
 
@@ -36,7 +40,6 @@
             })
       },
       openWebinarPage(webinar) {
-        console.log(webinar._id)
         this.$router.push({ name: 'WebinarPage', params: { webinarId: webinar._id }})
       }
     },
@@ -60,6 +63,14 @@
     @media screen and (max-width: $page-content-desktop-breakpoint - 1) {
       padding: $page-content-mobile-padding;
     }
+  }
+
+  .webinar-cards-list {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-wrap: wrap;
   }
 
   .webinar-card {

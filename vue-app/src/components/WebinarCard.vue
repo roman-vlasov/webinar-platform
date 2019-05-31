@@ -3,6 +3,7 @@
     <div class="webinar-card-image" :style="cardImageStyle"></div>
     <div class="webinar-card-header">
       <div class="header-name-title">{{ name }}</div>
+      <div class="header-author">{{ author }}</div>
     </div>
   </div>
 </template>
@@ -87,5 +88,11 @@
     font-size: 22px;
     font-weight: 600;
     color: inherit;
+  }
+
+  .header-author {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.4);
   }
 </style>

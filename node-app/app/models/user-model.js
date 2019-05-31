@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema({
       // Почта пользователя
       email: {type: String, unique: true, required: true},
       // Права пользователя
-      role: {type: String, enum: ['ADMIN', 'USER'], default: 'USER'},
+      role: {type: String, enum: ['ADMIN', 'USER'], default: 'ADMIN'},
     }, {timestamps: true}
 );
 
