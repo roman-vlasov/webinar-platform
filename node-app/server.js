@@ -88,5 +88,17 @@ app.use('/api/webinars', require('./routes/webinars.js'));
 app.use('/api/webinars/:webinarId/polls', require('./routes/polls.js'));
 app.use('/api/webinars/:webinarId/polls/:pollId/answers', require('./routes/answers.js'));
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+/* SOCKETS */
+const server = app.listen(3000, function() {
+    console.log('server running on port 3000');
+});
+
+
+const io = require('socket.io')(server);
+
+io.on('connection', function (socket) {
+    socket.emit('news', { hello: 'world' });
+    socket.on('my other event', function (data) {
+        console.log(data);
+    });
+});

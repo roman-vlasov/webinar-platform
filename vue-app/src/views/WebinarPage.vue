@@ -28,10 +28,23 @@
     import {mapGetters} from 'vuex'
     import {mapActions} from 'vuex'
 
+    import io from 'socket.io-client';
+
     export default {
         name: "WebinarPage",
         created() {
             this.fetchData()
+        },
+        data() {
+          return {
+              socket : io('localhost:3000/')
+          }
+        },
+        mounted() {
+            this.socket.on('news', (data) => {
+                console.log(data)
+                // you can also do this.messages.push(data)
+            });
         },
         methods: {
             ...mapActions('Webinars', [
