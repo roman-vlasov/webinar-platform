@@ -11,6 +11,8 @@ const PollSchema = mongoose.Schema({
         answers: {type: [String], required: true},
         // Индекс правильного ответа
         rightAnswerIndex: {type: Number},
+        // Состояние опроса
+        state: {type: String, enum: ['NOT_STARTED', 'ONLINE', 'COMPLETED'], default: 'NOT_STARTED'}
     }, {timestamps: true}
 );
 

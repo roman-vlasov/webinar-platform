@@ -115,3 +115,34 @@ exports.delete = (req, res) => {
         });
     });
 };
+
+// Запустить опрос
+exports.start = (pollId, socket) => {
+    Poll.findById(pollId)
+        .then(poll => {
+            if (!poll) {
+                return res.status(404).send({
+                    message: "Poll not found with id " + pollId
+                });
+            }
+            poll.state = 'ONLINE';
+            poll.save()
+                .then(data => {
+                    res.send(data);
+                }).catch(err => {
+                res.status(500).send({
+                    message: err.message || "Something wrong while creating the poll."
+                });
+            });
+            socket.emit('poll_started' , {poll: poll});
+        }).catch(err => {
+        if (err.kind === 'ObjectId') {
+            return res.status(404).send({
+                message: "Poll not found with id " + pollId
+            });
+        }
+        return res.status(500).send({
+            message: "Something wrong retrieving poll with id " + pollId
+        });
+    });
+};

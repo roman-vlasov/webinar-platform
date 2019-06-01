@@ -79,6 +79,7 @@ app.use('/users', require('./routes/users.js'));
 
 const router = express.Router();
 const userController = require('./app/controllers/user-controller');
+const pollController = require('./app/controllers/poll-controller');
 router.get('/', userController.show);
 app.use('/api/users/current', router);
 
@@ -93,12 +94,10 @@ const server = app.listen(3000, function() {
     console.log('server running on port 3000');
 });
 
-
 const io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
-    socket.emit('news', { hello: 'world' });
-    socket.on('my other event', function (data) {
-        console.log(data);
+    socket.on('start_poll', function (data) {
+        pollController.start(data['pollId'], socket);
     });
 });
