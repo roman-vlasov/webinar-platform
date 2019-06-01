@@ -9,7 +9,7 @@
                     :name="webinar.title"
                     :image="webinar.image"
                     :author="webinar.authorName"
-                    @click.native="openWebinarPage(webinar)"/>
+                    @click.native="goToWebinarPage(webinar)"/>
     </div>
 
   </div>
@@ -17,30 +17,28 @@
 
 <script>
   import axios from "../axios-instance"
+  import {mapGetters} from 'vuex'
+  import {mapActions} from 'vuex'
 
   import WebinarCard from 'Components/WebinarCard.vue'
 
   export default {
     name: "Main",
-    data() {
-      return {
-        webinars: []
-      }
-    },
     created () {
       this.fetchData()
     },
-    methods: {
-      fetchData() {
-        axios.get('/api/webinars')
-            .then(response => {
-              console.log(response.data)
-              this.webinars = response.data
-              return response
-            })
+      computed: {
+          ...mapGetters('Webinars', [
+              'webinars'
+          ]),
       },
-      openWebinarPage(webinar) {
-        this.$router.push({ name: 'WebinarPage', params: { webinarId: webinar._id }})
+    methods: {
+        ...mapActions('Webinars', [
+            'fetchWebinars',
+            'goToWebinarPage'
+        ]),
+      fetchData() {
+          this.fetchWebinars()
       }
     },
     components: {

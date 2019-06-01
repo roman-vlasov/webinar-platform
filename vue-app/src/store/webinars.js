@@ -10,12 +10,14 @@ const webinarInitState = {
 
 // initial state
 const state = {
-    webinar: webinarInitState
+    webinar: webinarInitState,
+    webinars: []
 }
 
 // getters
 const getters = {
-    webinar: state => state.webinar
+    webinar: state => state.webinar,
+    webinars: state => state.webinars
 }
 
 // mutations
@@ -25,11 +27,25 @@ const mutations = {
     },
     resetWebinar(state) {
         state.webinar = webinarInitState
+    },
+    setWebinars(state, webinars) {
+        state.webinars = webinars
+    },
+    resetWebinars(state) {
+        state.webinars = []
     }
 }
 
 // actions
 const actions = {
+    fetchWebinars({commit}) {
+        commit('resetWebinars')
+        return axios.get('/api/webinars')
+            .then(response => {
+                commit('setWebinars', response.data)
+                return response
+            })
+    },
     fetchWebinar({commit}, webinarId) {
         commit('resetWebinar')
         return axios.get(`/api/webinars/${webinarId}`)
@@ -50,6 +66,9 @@ const actions = {
     },
     goToEditWebinarPage(_, webinar) {
         router.push({ name: 'WebinarEditPage', params: { webinarId: webinar._id } })
+    },
+    goToWebinarPage(_, webinar) {
+        router.push({ name: 'WebinarPage', params: { webinarId: webinar._id }})
     }
 }
 

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import Navigation from './store/navigation'
 import UserProfile from './store/profile'
 import Webinars from './store/webinars'
+import Polls from './store/polls'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     modules: {
         Navigation,
         UserProfile,
-        Webinars
+        Webinars,
+        Polls
     },
     strict: debug
 })

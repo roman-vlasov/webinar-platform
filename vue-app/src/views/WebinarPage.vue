@@ -51,13 +51,25 @@
                 'fetchWebinar',
                 'goToEditWebinarPage'
             ]),
+            ...mapActions('Polls', [
+                'fetchWebinars'
+            ]),
             fetchData() {
                 this.fetchWebinar(this.webinarId)
+                if (this.userIsAdmin) {
+                    this.fetchPolls(this.webinarId)
+                }
             }
         },
         computed: {
             ...mapGetters('Webinars', [
                 'webinar'
+            ]),
+            ...mapGetters('Polls', [
+                'polls'
+            ]),
+            ...mapGetters('UserProfile', [
+                'userIsAdmin'
             ]),
             webinarId() {
                 return this.$route.params.webinarId
