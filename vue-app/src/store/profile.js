@@ -6,7 +6,8 @@ const state = {
   image: "https://vk.com/images/camera_200.png?ava=1",
   email: '',
   id: null,
-  role: null
+  role: null,
+  authState: null
 }
 
 // getters
@@ -16,7 +17,8 @@ const getters = {
   userEmail: state => state.email,
   userId: state => state.id,
   userRole: state => state.role,
-  userIsAdmin: state => state.role === 'ADMIN'
+  userIsAdmin: state => state.role === 'ADMIN',
+  authState: state => state.authState
 }
 
 // mutations
@@ -26,6 +28,10 @@ const mutations = {
     state.id = profileInfo._id
     state.email = profileInfo.email
     state.role = profileInfo.role
+    state.authState = true
+  },
+  setAuthState(state, authState) {
+    state.authState = authState
   }
 }
 
@@ -37,6 +43,7 @@ const actions = {
         commit('setProfile', response.data)
         return response
       })
+        .catch(() => commit('setAuthState', false))
   }
 }
 

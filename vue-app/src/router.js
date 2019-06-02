@@ -6,9 +6,11 @@ import WebinarPage from './views/WebinarPage.vue'
 import WebinarEditPage from './views/WebinarEditPage.vue'
 import PollEditPage from './views/PollEditPage.vue'
 
+import store from './store'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -53,3 +55,13 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (store.getters['UserProfile/authState'] === false) {
+    window.location.replace('/users/login')
+  } else {
+    next()
+  }
+})
+
+export default router

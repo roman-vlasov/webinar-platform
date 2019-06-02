@@ -7,7 +7,7 @@ const AnswerSchema = mongoose.Schema({
         // Идентификатор пользователя
         userId: {type: String, required: true},
         // Индекс ответа
-        answerIndex: {type: Number, required: true},
+        selectedAnswers: {type: [String], required: true},
         // Правильный ли ответ
         right: {type: Boolean},
     }, {timestamps: true}

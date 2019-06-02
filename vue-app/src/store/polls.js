@@ -72,6 +72,17 @@ const actions = {
     goToCreatePollPage(_, webinar) {
         router.push({ name: 'PollNewPage', params: { webinarId:webinar._id } })
     },
+    switchPollState(_, { poll, socket }) {
+        if (poll.state === 'NOT_STARTED') {
+            socket.emit('start_poll', {pollId: poll._id});
+        } else if (poll.state === 'ONLINE') {
+            socket.emit('finish_poll', {pollId: poll._id});
+        }
+    },
+    sendAnswers(_, { poll, selectedAnswers }) {
+        return axios.post(`/api/webinars/${poll.webinarId}/polls/${poll._id}/answers`, { selectedAnswers, pollId: poll._id })
+            .then(response => response.data.right)
+    }
     // goToWebinarPage(_, webinar) {
     //     router.push({ name: 'WebinarPage', params: { webinarId: webinar._id }})
     // }

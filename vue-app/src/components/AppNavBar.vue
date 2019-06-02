@@ -29,7 +29,7 @@
 
             <div class="navbar-right-side">
                 <user-profile-card
-                        :path="profilePath"
+                        :profile-url="profileUrl"
                         class="user-profile-card"
                         :user-name="userName"
                         :user-image="userImage"/>
@@ -67,6 +67,7 @@
             navDrawerActive: Boolean,
             appIcon: String,
             profilePath: Object,
+            profileUrl: String,
             mainPageRouteName: String
         },
         methods: {

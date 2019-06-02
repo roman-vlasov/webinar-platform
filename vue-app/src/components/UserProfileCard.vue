@@ -5,7 +5,7 @@
       <div class="header__avatar"><img :src="userImage" alt=""></div>
     </div>
     <div class="user-profile-card__content">
-      Открыть профиль
+      Выйти из профиля
     </div>
   </div>
 </template>
@@ -16,11 +16,16 @@
       props: {
           userName: String,
           userImage: String,
-          path: Object
+          path: Object,
+          profileUrl: String
       },
       methods: {
           goToProfile() {
+            if (this.profileUrl) {
+              window.location.replace(this.profileUrl)
+            } else {
               this.$router.push(this.path)
+            }
           }
       }
   }

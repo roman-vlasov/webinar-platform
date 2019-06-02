@@ -4,7 +4,9 @@
         <div class="buttons-container poll-list-item-buttons-container">
             <button class="button button--secondary button--small button--without-shadow" @click="$emit('delete-item')">Удалить</button>
             <button class="button button--secondary button--small button--without-shadow" @click="$emit('edit-item')">Редактировать</button>
-            <button class="button button--primary button--small button--without-shadow" @click="$emit('run-item')">Запустить</button>
+            <button class="button button--primary button--small button--without-shadow"
+                    v-if="this.state !== 'COMPLETED'"
+                    @click="$emit('start-item')">{{ startButtonTitle }}</button>
         </div>
     </div>
 </template>
@@ -13,8 +15,18 @@
     export default {
         name: "PollListItem",
         props: {
-          title: String
+          title: String,
+            state: String
         },
+        computed: {
+            startButtonTitle() {
+                if (this.state === 'ONLINE') {
+                    return 'Завершить'
+                } else {
+                    return 'Запустить'
+                }
+            }
+        }
     }
 </script>
 

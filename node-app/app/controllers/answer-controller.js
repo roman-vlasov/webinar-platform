@@ -1,6 +1,12 @@
 const Answer = require('../models/answer-model');
 const Poll = require('../models/poll-model');
 
+function eqSet(as, bs) {
+    if (as.size !== bs.size) return false;
+    for (var a of as) if (!bs.has(a)) return false;
+    return true;
+}
+
 // Создает ответ на вопрос
 exports.create = (req, res) => {
     if (!req.body) {
@@ -9,23 +15,16 @@ exports.create = (req, res) => {
         });
     }
 
-    Answer.findOne({questionId: req.body.questionId, userId: req.body.userId})
-        .then(existed_answer => {
-            if (existed_answer) {
-                return res.status(400).send({
-                    message: "Answer exists"
-                });
-            }
-        });
-
-    Poll.findById(req.body.questionId).then(poll => {
+    Poll.findById(req.body.pollId).then(poll => {
+        console.log('inside')
         if (poll) {
-            const isRightAnswer = poll.rightAnswerIndex === req.body.answerIndex;
+            const rightAnswersIds = poll.answers.filter(item =>item.right).map(item => item._id.toString());
+            const answerResult = eqSet(new Set(rightAnswersIds), new Set(req.body.selectedAnswers));
             const answer = new Answer({
-                questionId: req.body.questionId,
-                userId: req.body.userId,
-                answerIndex: req.body.answerIndex,
-                right: isRightAnswer
+                questionId: req.body.pollId,
+                userId: req.user._id,
+                selectedAnswers: req.body.selectedAnswers,
+                right: answerResult
             });
 
             answer.save()
@@ -38,7 +37,7 @@ exports.create = (req, res) => {
             });
         } else {
             return res.status(400).send({
-                message: "Poll don't exists"
+                message: "Poll don't exists " + req.params.pollId
             });
         }
     });

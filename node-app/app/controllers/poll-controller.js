@@ -119,28 +119,30 @@ exports.start = (pollId, socket) => {
     Poll.findById(pollId)
         .then(poll => {
             if (!poll) {
-                return res.status(404).send({
-                    message: "Poll not found with id " + pollId
-                });
+                return;
             }
             poll.state = 'ONLINE';
             poll.save()
                 .then(data => {
-                    res.send(data);
-                }).catch(err => {
-                res.status(500).send({
-                    message: err.message || "Something wrong while creating the poll."
+                    socket.broadcast.emit('poll_started' , {poll: poll});
+                    return data;
                 });
-            });
-            socket.emit('poll_started' , {poll: poll});
-        }).catch(err => {
-        if (err.kind === 'ObjectId') {
-            return res.status(404).send({
-                message: "Poll not found with id " + pollId
-            });
-        }
-        return res.status(500).send({
-            message: "Something wrong retrieving poll with id " + pollId
-        });
-    });
+            return poll;
+        })
+};
+
+exports.finish = (pollId, socket) => {
+    Poll.findById(pollId)
+        .then(poll => {
+            if (!poll) {
+                return;
+            }
+            poll.state = 'COMPLETED';
+            poll.save()
+                .then(data => {
+                    socket.broadcast.emit('poll_finished' , {poll: poll});
+                    return data;
+                });
+            return poll;
+        })
 };

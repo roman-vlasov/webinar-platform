@@ -15,7 +15,7 @@
                    :app-icon="$images.mobileLogo"
                    :menu-items="navbarMenuItems"
                    :nav-drawer-active="navigationDrawerShow"
-                   :profile-path="{ name: 'Profile' }"
+                   :profile-url="'/users/logout'"
                    main-page-route-name="Main"
                    v-on:hamburgerClick="switchNavigationDrawerShow"/>
     </div>

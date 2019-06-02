@@ -102,4 +102,7 @@ io.on('connection', function (socket) {
     socket.on('start_poll', function (data) {
         pollController.start(data['pollId'], socket);
     });
+    socket.on('finish_poll', function (data) {
+        pollController.finish(data['pollId'], socket);
+    });
 });
