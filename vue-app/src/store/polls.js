@@ -3,7 +3,8 @@ import router from "../router";
 
 // initial state
 const state = {
-    polls: []
+    polls: [],
+    poll: null
 }
 
 // getters
@@ -18,6 +19,12 @@ const mutations = {
     },
     resetPolls(state) {
         state.polls = []
+    },
+    setPoll(state, poll) {
+        state.poll = poll
+    },
+    resetPoll(state) {
+        state.poll = null
     }
 }
 
@@ -25,33 +32,46 @@ const mutations = {
 const actions = {
     fetchPolls({commit}, webinarId) {
         commit('resetPolls')
+        console.log("start")
         return axios.get(`/api/webinars/${webinarId}/polls`)
             .then(response => {
                 commit('setPolls', response.data)
+                console.log(response.data)
                 return response
             })
     },
-    // fetchWebinar({commit}, webinarId) {
-    //     commit('resetWebinar')
-    //     return axios.get(`/api/webinars/${webinarId}`)
-    //         .then(response => {
-    //             commit('setWebinar', response.data)
-    //             return response
-    //         })
-    // },
-    // resetWebinar({commit}) {
-    //     commit('resetWebinar')
-    // },
-    // saveWebinar(_, payload) {
-    //     if (payload.webinarId !== null) {
-    //         return axios.put(`/api/webinars/${payload.webinarId}`, payload.webinar)
-    //     } else {
-    //         return axios.post('/api/webinars', payload.webinar)
-    //     }
-    // },
-    // goToEditWebinarPage(_, webinar) {
-    //     router.push({ name: 'WebinarEditPage', params: { webinarId: webinar._id } })
-    // },
+    fetchPoll({commit}, { webinarId, pollId }) {
+        commit('resetPoll')
+        return axios.get(`/api/webinars/${webinarId}/polls/${pollId}`)
+            .then(response => {
+                commit('setPoll', response.data)
+                return response
+            })
+    },
+    resetPoll({commit}) {
+        commit('resetPoll')
+    },
+    savePoll(_, { webinarId, pollId, poll }) {
+        if (pollId !== null) {
+            return axios.put(`/api/webinars/${webinarId}/polls/${pollId}`, poll)
+        } else {
+            return axios.post(`/api/webinars/${webinarId}/polls`, poll)
+        }
+    },
+    deletePoll({dispatch}, poll) {
+        const webinarId = poll.webinarId
+        return axios.delete(`/api/webinars/${poll.webinarId}/polls/${poll._id}`)
+            .then((response) => {
+                dispatch('fetchPolls', webinarId)
+                return response
+            })
+    },
+    goToEditPollPage(_, poll) {
+        router.push({ name: 'PollEditPage', params: { webinarId: poll.webinarId, pollId: poll._id } })
+    },
+    goToCreatePollPage(_, webinar) {
+        router.push({ name: 'PollNewPage', params: { webinarId:webinar._id } })
+    },
     // goToWebinarPage(_, webinar) {
     //     router.push({ name: 'WebinarPage', params: { webinarId: webinar._id }})
     // }

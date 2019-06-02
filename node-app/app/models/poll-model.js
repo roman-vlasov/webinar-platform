@@ -1,14 +1,19 @@
 const mongoose = require('mongoose');
 const Answer = require('../models/answer-model');
 
+const AnswerOptionSchema = new mongoose.Schema({ value: {type: String, required: true}, right: {type: Boolean, required: true} });
+
 /* Схема БД. */
 const PollSchema = mongoose.Schema({
         // Вебинар
-        pollId: {type: String, required: true},
+        webinar: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Webinar'
+        },
         // Текст вопроса
         question: {type: String, required: true},
         // Ответы
-        answers: {type: [String], required: true},
+        answers: {type: [AnswerOptionSchema], required: true},
         // Индекс правильного ответа
         rightAnswerIndex: {type: Number},
         // Состояние опроса

@@ -11,8 +11,7 @@ exports.create = (req, res) => {
     const poll = new Poll({
         pollId: req.body.pollId,
         question: req.body.question,
-        answers: req.body.answers,
-        rightAnswerIndex: req.body.rightAnswerIndex
+        answers: req.body.answers
     });
 
     poll.save()
@@ -27,7 +26,7 @@ exports.create = (req, res) => {
 
 // Возвращает список опросов для вебинара
 exports.findAllByWebinar = (req, res) => {
-    Poll.find({webinarId: req.params.webinarId})
+    Poll.find({webinar: req.params.webinarId})
         .then(polls => {
             res.send(polls);
         }).catch(err => {
@@ -71,8 +70,7 @@ exports.update = (req, res) => {
     Poll.findByIdAndUpdate(req.params.pollId, {
         pollId: req.body.pollId,
         question: req.body.question,
-        answers: req.body.answers,
-        rightAnswerIndex: req.body.rightAnswerIndex
+        answers: req.body.answers
     }, {new: true})
         .then(poll => {
             if (!poll) {

@@ -55,7 +55,7 @@
         methods: {
             ...mapActions('Webinars', [
                 'fetchWebinar',
-                'resetWebinar'
+                'resetWebinar',
             ]),
             fetchData() {
                 if (this.editMode) {

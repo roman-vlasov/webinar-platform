@@ -85,9 +85,11 @@ app.use('/api/users/current', router);
 
 module.exports = router;
 
-app.use('/api/webinars', require('./routes/webinars.js'));
-app.use('/api/webinars/:webinarId/polls', require('./routes/polls.js'));
 app.use('/api/webinars/:webinarId/polls/:pollId/answers', require('./routes/answers.js'));
+app.use('/api/webinars/:webinarId/polls', require('./routes/polls.js'));
+app.use('/api/webinars', require('./routes/webinars.js'));
+
+
 
 /* SOCKETS */
 const server = app.listen(3000, function() {

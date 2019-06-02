@@ -1,16 +1,9 @@
 import axios from '../axios-instance'
 import router from "../router";
 
-const webinarInitState = {
-    title: '',
-    description: '',
-    image: '',
-    url: ''
-}
-
 // initial state
 const state = {
-    webinar: webinarInitState,
+    webinar: null,
     webinars: []
 }
 
@@ -26,7 +19,7 @@ const mutations = {
         state.webinar = webinar
     },
     resetWebinar(state) {
-        state.webinar = webinarInitState
+        state.webinar = null
     },
     setWebinars(state, webinars) {
         state.webinars = webinars
@@ -53,6 +46,9 @@ const actions = {
                 commit('setWebinar', response.data)
                 return response
             })
+    },
+    deleteWebinar({dispatch}, webinar) {
+        return axios.delete(`/api/webinars/${webinar._id}`)
     },
     resetWebinar({commit}) {
         commit('resetWebinar')

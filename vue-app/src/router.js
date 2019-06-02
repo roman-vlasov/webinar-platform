@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Main from './views/Main.vue'
 import WebinarPage from './views/WebinarPage.vue'
 import WebinarEditPage from './views/WebinarEditPage.vue'
+import PollEditPage from './views/PollEditPage.vue'
 
 Vue.use(Router)
 
@@ -31,7 +32,17 @@ export default new Router({
       component: WebinarEditPage,
       props: { editMode: true }
     },
-
+    {
+      path: '/webinar/:webinarId/poll/new',
+      name: 'PollNewPage',
+      component: PollEditPage
+    },
+    {
+      path: '/webinar/:webinarId/poll/:pollId/edit',
+      name: 'PollEditPage',
+      component: PollEditPage,
+      props: { editMode: true }
+    },
     {
       path: '/about',
       name: 'about',

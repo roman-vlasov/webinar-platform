@@ -1,25 +1,37 @@
 <template>
     <div class="main">
 
-        <div class="buttons-container">
-            <button class="button button--secondary" @click="goToEditWebinarPage(webinar)">Управление вебинаром</button>
+        <div class="buttons-container" v-if="userIsAdmin">
+            <button class="button button--secondary" @click="deleteWebinarAndGoToMain(webinar)">Удалить вебинар</button>
+            <button class="button button--secondary" @click="goToEditWebinarPage(webinar)">Редактировать вебинар</button>
+            <button class="button button--secondary" @click="goToCreatePollPage(webinar)">Создать опрос</button>
         </div>
-        <div class="webinar-column">
-            <div class="webinar-iframe">
-                <iframe width="560"
-                        height="315"
-                        :src="iframeSrc"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-            </div>
-            <div class="webinar-info">
-                <h2 class="content-header-title">{{ webinar.title }}</h2>
-                <p class="webinar-description">{{ webinar.description }}</p>
-            </div>
+        <div class="webinar-row">
+            <div class="webinar-column">
+                <div class="webinar-iframe">
+                    <iframe width="560"
+                            height="315"
+                            :src="iframeSrc"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+                <div class="webinar-info">
+                    <h2 class="content-header-title">{{ webinar.title }}</h2>
+                    <p class="webinar-description">{{ webinar.description }}</p>
+                </div>
 
+            </div>
+            <div class="webinar-panel">
+                <h2 class="content-header-title">Список опросов</h2>
+                <poll-list-item class="poll-list-item"
+                                v-for="(poll, index) in polls"
+                                v-on:edit-item="goToEditPollPage(poll)"
+                                v-on:delete-item="deletePoll(poll)"
+                                :key="index"
+                                :title="poll.question"/>
+            </div>
         </div>
-
 
     </div>
 </template>
@@ -27,6 +39,8 @@
 <script>
     import {mapGetters} from 'vuex'
     import {mapActions} from 'vuex'
+
+    import PollListItem from 'Components/PollListItem.vue'
 
     import io from 'socket.io-client';
 
@@ -49,16 +63,23 @@
         methods: {
             ...mapActions('Webinars', [
                 'fetchWebinar',
-                'goToEditWebinarPage'
+                'goToEditWebinarPage',
+                    'deleteWebinar'
             ]),
             ...mapActions('Polls', [
-                'fetchWebinars'
+                'fetchPolls',
+                'goToEditPollPage',
+                'goToCreatePollPage',
+                    'deletePoll'
             ]),
             fetchData() {
                 this.fetchWebinar(this.webinarId)
-                if (this.userIsAdmin) {
-                    this.fetchPolls(this.webinarId)
-                }
+                // TODO: Только для админов
+                this.fetchPolls(this.webinarId)
+            },
+            deleteWebinarAndGoToMain(webinar) {
+                this.deleteWebinar(webinar)
+                        .then(() => this.$router.replace({ name: 'Main' }))
             }
         },
         computed: {
@@ -75,8 +96,14 @@
                 return this.$route.params.webinarId
             },
             iframeSrc() {
+                if (!this.webinar || !this.webinar.url) {
+                    return 'https://www.youtube.com/embed/?controls=0'
+                }
                 return `https://www.youtube.com/embed/${this.webinar.url}?controls=0`
             }
+        },
+        components: {
+            PollListItem
         }
     }
 </script>
@@ -106,5 +133,23 @@
             width: 100%;
             margin: 0 0 15px 0;
         }
+    }
+
+    .webinar-row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .webinar-column {
+        margin-right: 50px;
+    }
+
+    .webinar-panel {
+        width: 100%;
+        max-width: 900px;
+    }
+
+    .poll-list-item {
+        margin-bottom: 15px;
     }
 </style>
