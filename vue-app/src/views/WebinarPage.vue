@@ -72,7 +72,7 @@
         },
         data() {
           return {
-              socket : io('localhost:3000'),
+              socket : io(/*'localhost:3000'*/'/'),
               currentPoll: null,
               loading: true,
               lastPollResult: null

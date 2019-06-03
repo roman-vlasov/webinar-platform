@@ -69,6 +69,7 @@
       ]),
       fetchData() {
         this.fetchCurrentUser()
+            .catch(() => window.location.replace('/users/login'))
       }
     }
   }

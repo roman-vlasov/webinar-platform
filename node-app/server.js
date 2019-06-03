@@ -73,7 +73,10 @@ app.use(function (req, res, next) {
 });
 
 // Routes
-app.use('/', require('./routes/index.js'));
+// app.use('/static', express.static(path.join(__dirname,"../public/dist/static/")));
+
+
+// app.use('/', require('./routes/index.js'));
 app.use('/users', require('./routes/users.js'));
 
 
@@ -92,8 +95,8 @@ app.use('/api/webinars', require('./routes/webinars.js'));
 
 
 /* SOCKETS */
-const server = app.listen(3000, function() {
-    console.log('server running on port 3000');
+const server = app.listen(process.env.PORT || 3000, function() {
+    console.log('server running on port '+process.env.PORT);
 });
 
 const io = require('socket.io')(server);
@@ -105,4 +108,9 @@ io.on('connection', function (socket) {
     socket.on('finish_poll', function (data) {
         pollController.finish(data['pollId'], socket);
     });
+});
+
+app.use(express.static('public'));
+app.get('/', function(req,res) {
+    res.sendFile('index.html', { root: path.join(__dirname, 'public/') });
 });

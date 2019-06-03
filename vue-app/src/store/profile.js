@@ -43,7 +43,6 @@ const actions = {
         commit('setProfile', response.data)
         return response
       })
-        .catch(() => commit('setAuthState', false))
   }
 }
 

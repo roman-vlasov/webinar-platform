@@ -56,12 +56,12 @@ const router = new Router({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  if (store.getters['UserProfile/authState'] === false) {
-    window.location.replace('/users/login')
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (store.getters['UserProfile/authState'] === false) {
+//     window.location.replace('/users/login')
+//   } else {
+//     next()
+//   }
+// })
 
 export default router

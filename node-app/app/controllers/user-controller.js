@@ -68,6 +68,11 @@ exports.create = (req, res) => {
 
 // Показывать профиль пользователя
 exports.show = (req, res) => {
+    if (!req.user) {
+        return res.status(400).send({
+            message: "Need auth!"
+        });
+    }
     res.send(req.user);
 };
 
@@ -82,7 +87,7 @@ exports.delete = (req, res) => {
 // Входит в аккаунт
 exports.login = (req, res, next) => {
     passport.authenticate('local', {
-        successRedirect: '/dashboard',
+        successRedirect: '/',
         failureRedirect: '/users/login',
         failureFlash: true
     })(req, res, next);
